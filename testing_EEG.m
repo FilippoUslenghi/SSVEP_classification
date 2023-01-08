@@ -9,12 +9,13 @@ close all
 % seconds the person had his eyes closed and then again, for 25 seconds,
 % the person stared at the same light
 fs = 1000;
-data = h5read("5hz-EEG_2022-12-27_16-38-34.h5", "/20:15:12:22:81:60/raw/channel_4");
+data = h5read("data/5hz-EEG_2022-12-27_16-38-34.h5", "/20:15:12:22:81:60/raw/channel_4");
 data = cast(data, "double");
 
 % figure()
 % plot(data)
 % title("Raw EEG before filtering")
+
 
 n_windows = 3;
 windowTime = 25; % seconds
@@ -30,10 +31,13 @@ for ii = 1:n_windows
     t_axis = (0:N-1)/fs;
     
     % Filtering the signal
-    [b, a] = butter(3, 2*[0.5, 40]/fs);
-    window = filtfilt(b, a, window);
-    window = bandstop(window, [45, 55], fs);
-    
+%     [b, a] = butter(3, 2*[0.5, 40]/fs);
+%     window = filtfilt(b, a, window);
+%     window = bandstop(window, [45, 55], fs);
+
+    % or
+    window = bandpass(window, [2, 40], fs);
+
 %     figure()
 %     plot(window)
 %     title(sprintf("Window %u - EEG after filtering", ii))
@@ -55,7 +59,7 @@ close all
 % seconds the person had his eyes closed and then again, for 25 seconds,
 % the person stared at the same light
 fs = 1000;
-data = h5read("7.4hz-EEG_2022-12-27_16-32-02.h5", "/20:15:12:22:81:60/raw/channel_4");
+data = h5read("data/7.4hz-EEG_2022-12-27_16-32-02.h5", "/20:15:12:22:81:60/raw/channel_4");
 data = cast(data, "double");
 
 % figure()
@@ -76,9 +80,12 @@ for ii = 1:n_windows
     t_axis = (0:N-1)/fs;
     
     % Filtering the signal
-    [b, a] = butter(3, 2*[0.5, 40]/fs);
-    window = filtfilt(b, a, window);
-    window = bandstop(window, [45, 55], fs);
+%     [b, a] = butter(3, 2*[0.5, 40]/fs);
+%     window = filtfilt(b, a, window);
+%     window = bandstop(window, [45, 55], fs);
+
+    % or
+    window = bandpass(window, [2, 40], fs);
     
 %     figure()
 %     plot(window)
@@ -103,7 +110,7 @@ close all
 % seconds the person had his eyes closed and then again, for 25 seconds,
 % the person stared at the same light
 fs = 1000;
-data = h5read("11hz-EEG_2022-12-27_16-35-54.h5", "/20:15:12:22:81:60/raw/channel_4");
+data = h5read("data/11hz-EEG_2022-12-27_16-35-54.h5", "/20:15:12:22:81:60/raw/channel_4");
 data = cast(data, "double");
 
 % figure()
@@ -149,7 +156,7 @@ close all
 % seconds the person had his eyes closed and then again, for 25 seconds,
 % the person stared at the same light
 fs = 1000;
-data = h5read("17hz-EEG_2022-12-27_16-41-29.h5", "/20:15:12:22:81:60/raw/channel_4");
+data = h5read("data/17hz-EEG_2022-12-27_16-41-29.h5", "/20:15:12:22:81:60/raw/channel_4");
 data = cast(data, "double");
 
 % figure()

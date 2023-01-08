@@ -1,0 +1,32 @@
+%% 5 Hz blinking light
+clearvars;
+clc;
+close all
+
+fs = 1000;
+data = h5read("data/5hz-EEG_2022-12-27_16-32-02.h5", "/20:15:12:22:81:60/raw/channel_4");
+data = cast(data, "double");
+
+% Filtering the signal
+data = bandpass(data, [2, 40], fs);
+
+n_windows = 3;
+windowTime = 24; % seconds
+windowLength = windowTime*fs;
+
+windows = zeros(windowLength, n_windows);
+for ii = 1:n_windows
+    windows(:, ii) = data(windowLength*(ii-1)+1:windowLength*ii);
+end
+
+%%er
+first_window = windows(:, 1);
+
+n_samples = 10;
+sampleLength = windowLength/n_samples;
+samples = reshape(first_window, [sampleLength, n_samples]);
+
+targetFreqMatrix = zeros(size(samples));
+for ii = 1:n_samples
+    targetFreqMatrix(:, ii) = ;
+end
