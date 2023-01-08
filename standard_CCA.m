@@ -4,11 +4,12 @@ clc;
 close all
 
 fs = 1000;
-data = h5read("data/5hz-EEG_2022-12-27_16-32-02.h5", "/20:15:12:22:81:60/raw/channel_4");
+data_dir = "data/6hz-01.h5";
+data = h5read(data_dir, "/20:15:12:22:81:60/raw/channel_4");
 data = cast(data, "double");
 
 % Filtering the signal
-data = bandpass(data, [2, 40], fs);
+% data = bandpass(data, [2, 40], fs);
 
 n_windows = 3;
 windowTime = 24; % seconds
