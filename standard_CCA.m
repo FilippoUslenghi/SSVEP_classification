@@ -1,4 +1,4 @@
-%% 5 Hz blinking light
+%% 6 Hz blinking light
 clearvars;
 clc;
 close all
@@ -21,7 +21,7 @@ padded_data = cat(1, data, zeroPadding);
 X = reshape(padded_data, [], windowLength);
 
 % Creating the Y matrix of the target frequency for the CCA
-targetFreq = 5; %Hz
+targetFreq = 6; %Hz
 n_harmonics = 8;
 Y = zeros(n_harmonics*2, windowLength);
 t = (0:windowLength-1)/fs;
