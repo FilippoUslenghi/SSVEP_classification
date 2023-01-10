@@ -3,6 +3,7 @@ clearvars;
 clc;
 close all
 
+figure()
 ax = zeros(1, 10);
 for ii = 1:5
     % Loading the data
@@ -35,10 +36,8 @@ end
 linkaxes(ax, 'x');
 
 %% 7.4Hz SSVEP
-clearvars;
-clc;
-close all
 
+figure()
 ax = zeros(1, 10);
 for ii = 1:5
     % Loading the data
@@ -71,10 +70,8 @@ end
 linkaxes(ax, 'x');
 
 %% No SSVEP
-clearvars;
-clc;
-close all
 
+figure()
 ax = zeros(1, 10);
 for ii = 1:5
     % Loading the data
