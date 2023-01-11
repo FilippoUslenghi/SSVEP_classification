@@ -3,18 +3,21 @@ clearvars;
 clc
 close all
 
-data = load_data("data/6hz_03.h5");
-% data = data(1:2000);
+data = load_data("data/6hz_01.h5");
+n_window = 4;
+windowLength = 2000;
+% data = data((n_window-1)*windowLength+1:n_window*windowLength);
+data = data(20000:25000);
 
-targetFreq = 6; %Hz
+targetFreqs = [6, 7.4]; %Hz
 fs = 1000;
 
 % Filtering the signal
-data = bandpass(data, [2, 40], fs);
+data = bandpass(data, [4, 40], fs);
 
 % Compute the periodogram
 [PSD, freqs_PSD] = compute_PSD(data, fs);
-exp_PSD = PSD.^2; % squared it
+exp_PSD = PSD; % squared it
 
 figure()
 plot(freqs_PSD, exp_PSD)
@@ -35,11 +38,21 @@ plot(pks)
 hold on
 plot(P_idx, pks(P_idx), '-x', 'Color', 'r')
 
-detection = any(bitand(locs>targetFreq-.25, locs<targetFreq+.25));
-if detection
-    fprintf("You were looking at light blinking at %.1f Hz\n", targetFreq)
-else
-    disp("You were NOT looking at blinking light")
+detectedFreqs =[];
+for ii = 1:length(targetFreqs)
+    freq = targetFreqs(ii);
+    detected = any(bitand(locs>freq-.25, locs<freq+.25));
+    if detected
+        detectedFreqs(ii) = freq;
+    end
+end
+
+if detectedFreqs
+        for freq = detectedFreqs
+            fprintf("You were looking at light blinking at %.1f Hz\n", freq)
+        end
+    else
+        disp("You were NOT looking at blinking light")    
 end
 
 %% Functions

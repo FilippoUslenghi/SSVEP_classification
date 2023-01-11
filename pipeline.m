@@ -1,10 +1,10 @@
-function detectedFreqs = pipeline(signal, targetFreqs, fs, filterFreqs, perc)
+function detectedFreqs = pipeline(signal, targetFreqs, fs, filterFreqs, percentile, freqInterval)
 % The signal processing pipeline for the detection of evoked frequencies
 % based on on SSVEP
 
 % Filtering the signal
 if filterFreqs
-    signal = bandpass(signal, [filterFreqs(1), filterFreqs(2)], fs);
+    signal = bandpass(signal, filterFreqs, fs);
 end
 
 % Compute the periodogram
@@ -14,14 +14,13 @@ end
 exp_PSD = PSD.^2;
 
 % Detect the SSVEP component
-[~, locs] = find_highest_peaks(exp_PSD, freqs_PSD, perc, 0);
+[~, locs] = find_highest_peaks(exp_PSD, freqs_PSD, percentile, 0);
 
 detectedFreqs = [];
-for ii = 1:length(targetFreqs)
-    freq = targetFreqs(ii);
-    detected = any(bitand(locs>freq-.25, locs<freq+.25));
+for freq = targetFreqs
+    detected = any(bitand(locs>freq-freqInterval, locs<freq+freqInterval));
     if detected
-        detectedFreqs(ii) = freq;
+        detectedFreqs(end+1) = freq;
     end
 end
 
