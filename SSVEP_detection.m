@@ -3,7 +3,9 @@ clearvars;
 clc
 close all
 
+targetFreq = 6; %Hz
 data = load_data("data/6hz_01.h5");
+data = data(1:2000);
 
 fs = 1000;
 T = 1/fs;
@@ -23,14 +25,26 @@ plot(freqs_PSD, exp_PSD)
 
 %% Find 99th percentile of the sorted peaks
 [pks, locs] = findpeaks(exp_PSD, freqs_PSD, "SortStr", "descend");
-P = prctile(pks, 99);
-L = prctile(locs, 99);
+perc = 90;
+P = prctile(pks, perc);
+L = prctile(locs, perc);
 pks_99perc = pks(pks>P);
 locs_99perc = locs(pks>P);
 P_idx = find(diff(pks>P));
+
+figure()
 plot(pks)
 hold on
-plot(P_idx, P, '-x')
+plot(P_idx, pks(P_idx), '-x', 'Color', 'r')
+
+%% Detect if in the highest peaks there is the SSVEP component
+detection = any(bitand(locs_99perc>targetFreq-.25, locs_99perc<targetFreq+.25));
+
+if detection
+    fprintf("You were looking at light blinking at %.1f Hz\n", targetFreq)
+else
+    disp("You were NOT looking at blinking light")
+end
 
 %% Functions
 
