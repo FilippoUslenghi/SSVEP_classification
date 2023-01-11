@@ -4,7 +4,7 @@ clc
 close all
 
 data = load_data("data/6hz_03.h5");
-data = data(1:2000-1);
+% data = data(1:2000);
 
 targetFreq = 6; %Hz
 fs = 1000;
@@ -16,9 +16,24 @@ data = bandpass(data, [2, 40], fs);
 [PSD, freqs_PSD] = compute_PSD(data, fs);
 exp_PSD = PSD.^2; % squared it
 
-% Detect the SSVEP component
-perc = 90; % percentile of the sorted peaks
-[pks, locs] = find_highest_peaks(exp_PSD, freqs_PSD, perc, 0);
+figure()
+plot(freqs_PSD, exp_PSD)
+xlim([0,50])
+ylim([0,max(exp_PSD)])
+
+% Search the 90th percentile of the sorted peaks
+perc = 90;
+[pks, locs] = findpeaks(exp_PSD, freqs_PSD, "SortStr", "descend");
+P = prctile(pks, perc);
+pks_perc = pks(pks>P);
+locs_perc = locs(pks>P);
+
+P_idx = find(diff(pks>P));
+
+figure()
+plot(pks)
+hold on
+plot(P_idx, pks(P_idx), '-x', 'Color', 'r')
 
 detection = any(bitand(locs>targetFreq-.25, locs<targetFreq+.25));
 if detection
@@ -47,21 +62,4 @@ function [signal_periodogram, freqs_periodogram] = compute_PSD(signal, fs)
     signal_periodogram = signal_periodogram(1:round(end/2));
     freqs_periodogram = (0:N-1)/N*fs;
     freqs_periodogram = freqs_periodogram(1:round(end/2));
-end
-
-function [pks_perc,locs_perc] = find_highest_peaks(Y, X, perc, plots)
-% Find the "perc"-th percentile of the sorted peaks
-
-    [pks, locs] = findpeaks(Y, X, "SortStr", "descend");
-    P = prctile(pks, perc);
-    pks_perc = pks(pks>P);
-    locs_perc = locs(pks>P);
-    
-    if plots
-        P_idx = find(diff(pks>P));
-        figure()
-        plot(pks)
-        hold on
-        plot(P_idx, pks(P_idx), '-x', 'Color', 'r')
-    end
 end
