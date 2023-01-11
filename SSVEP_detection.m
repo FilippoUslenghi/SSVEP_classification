@@ -65,5 +65,3 @@ function [pks_perc,locs_perc] = find_highest_peaks(Y, X, perc, plots)
         plot(P_idx, pks(P_idx), '-x', 'Color', 'r')
     end
 end
-
-function pipeline(signal)
