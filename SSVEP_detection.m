@@ -7,7 +7,7 @@ data = load_data("data/7.4hz_01.h5");
 n_window = 4;
 windowLength = 2000;
 % data = data((n_window-1)*windowLength+1:n_window*windowLength);
-data = data(20000:25000);
+data = data(20000:21000);
 
 targetFreqs = [6, 7.4]; %Hz
 filterFreqs = [4, 40];
@@ -25,8 +25,8 @@ plot(freqs_PSD, exp_PSD)
 xlim([0,50])
 ylim([0,max(exp_PSD)])
 
-% Search the 90th percentile of the sorted peaks
-perc = 90;
+% Search the 'perc' percentile of the sorted peaks
+perc = 80;
 [pks, locs] = findpeaks(exp_PSD, freqs_PSD, "SortStr", "descend");
 P = prctile(pks, perc);
 pksPerc = pks(pks>P);
@@ -39,7 +39,7 @@ plot(pks)
 hold on
 plot(P_idx, pks(P_idx), '-x', 'Color', 'r')
 
-intervalDetection = .25;
+intervalDetection = .5;
 detectedFreqs =[];
 for ii = 1:length(targetFreqs)
     targetFreq = targetFreqs(ii);

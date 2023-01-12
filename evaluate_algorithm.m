@@ -5,8 +5,9 @@ close all
 fs = 1000;
 targetFreqs = [6, 7.4]; %Hz
 filterFreqs = [4, 40];
-percentile = 90;
-windowTime = 3; % seconds
+
+windowTime = 1; % seconds
+percentile = 80;
 freqInterval = .10;
 
 sixHz_accuracy = [];
