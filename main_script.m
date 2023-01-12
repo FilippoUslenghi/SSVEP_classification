@@ -13,7 +13,7 @@ freqInterval = .10;
 
 windowLength = windowTime*fs;
 n_windows = round(length(data)/windowLength);
-freqsPerWindow = cell(size(n_windows));
+freqPerWindow = cell(size(n_windows));
 for ii = 1:n_windows
     startPoint = (ii-1)*windowLength+1;
     endPoint = ii*windowLength;
@@ -22,7 +22,7 @@ for ii = 1:n_windows
     end
 
     window = data(startPoint:endPoint);
-    detectedFreqs = pipeline(window, targetFreqs, fs, filterFreqs, percentile, freqInterval);
+    detectedFreq = pipeline(window, targetFreqs, fs, filterFreqs, percentile, freqInterval);
 
 %     fprintf("Window n: %d\n", ii)
 %     if detectedFreqs
@@ -33,12 +33,12 @@ for ii = 1:n_windows
 %         disp("You were NOT looking at blinking light")
 %     end
 
-    freqsPerWindow{ii} = detectedFreqs;
+    freqPerWindow{ii} = detectedFreq;
 end
 
 successes = 0;
-for freq = freqsPerWindow
-    if isequal(freq{1}, realFreq)
+for detectedFreq = freqPerWindow
+    if isequal(detectedFreq{1}, realFreq)
         successes = successes+1;
     end
 end
@@ -46,4 +46,4 @@ end
 accuracy = successes/n_windows;
 
 fprintf("Detection accuracy with window of %d seconds, %d percentile and %.2f " + ...
-    "frequency detection interval, is %.2f\n", windowTime, percentile, freqInterval, accuracy)
+    "Hz frequency detection interval is %.2f\n", windowTime, percentile, freqInterval, accuracy);

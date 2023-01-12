@@ -6,7 +6,7 @@ fs = 1000;
 targetFreqs = [6, 7.4]; %Hz
 filterFreqs = [4, 40];
 percentile = 90;
-windowTime = 5; % seconds
+windowTime = 3; % seconds
 freqInterval = .10;
 
 sixHz_accuracy = [];
@@ -55,23 +55,14 @@ for ii = 1:n_windows
     end
 
     window = data(startPoint:endPoint);
-    detectedFreqs = pipeline(window, targetFreqs, fs, filterFreqs, percentile, freqInterval);
+    detectedFreq = pipeline(window, targetFreqs, fs, filterFreqs, percentile, freqInterval);
 
-%     fprintf("Window n: %d\n", ii)
-%     if detectedFreqs
-%         for freq = detectedFreqs
-%             fprintf("You were looking at light blinking at %.1f Hz\n", freq)
-%         end
-%     else
-%         disp("You were NOT looking at blinking light")
-%     end
-
-    freqsPerWindow{ii} = detectedFreqs;
+    freqsPerWindow{ii} = detectedFreq;
 end
 
 successes = 0;
-for freq = freqsPerWindow
-    if isequal(freq{1}, realFreq)
+for detectedFreq = freqsPerWindow
+    if isequal(detectedFreq{1}, realFreq)
         successes = successes+1;
     end
 end

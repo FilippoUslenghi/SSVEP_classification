@@ -3,17 +3,18 @@ clearvars;
 clc
 close all
 
-data = load_data("data/6hz_01.h5");
+data = load_data("data/7.4hz_01.h5");
 n_window = 4;
 windowLength = 2000;
 % data = data((n_window-1)*windowLength+1:n_window*windowLength);
 data = data(20000:25000);
 
 targetFreqs = [6, 7.4]; %Hz
+filterFreqs = [4, 40];
 fs = 1000;
 
 % Filtering the signal
-data = bandpass(data, [4, 40], fs);
+data = bandpass(data, filterFreqs, fs);
 
 % Compute the periodogram
 [PSD, freqs_PSD] = compute_PSD(data, fs);
@@ -28,8 +29,8 @@ ylim([0,max(exp_PSD)])
 perc = 90;
 [pks, locs] = findpeaks(exp_PSD, freqs_PSD, "SortStr", "descend");
 P = prctile(pks, perc);
-pks_perc = pks(pks>P);
-locs_perc = locs(pks>P);
+pksPerc = pks(pks>P);
+locsPerc = locs(pks>P);
 
 P_idx = find(diff(pks>P));
 
@@ -38,20 +39,23 @@ plot(pks)
 hold on
 plot(P_idx, pks(P_idx), '-x', 'Color', 'r')
 
+intervalDetection = .25;
 detectedFreqs =[];
 for ii = 1:length(targetFreqs)
-    freq = targetFreqs(ii);
-    detected = any(bitand(locs>freq-.25, locs<freq+.25));
-    if detected
-        detectedFreqs(ii) = freq;
-    end
+    targetFreq = targetFreqs(ii);
+    detectedFreqs = cat(2, detectedFreqs, locsPerc(locsPerc>targetFreq-intervalDetection ...
+        & locsPerc<targetFreq+intervalDetection));
 end
 
-if detectedFreqs
-        for freq = detectedFreqs
-            fprintf("You were looking at light blinking at %.1f Hz\n", freq)
-        end
-    else
+if detectedFreqs 
+    [~, indexDetectedFreqs] = ismember(detectedFreqs, locsPerc); 
+    detectedFreqsPower = pksPerc(indexDetectedFreqs);
+    maxDetectedFreq = locsPerc(pksPerc==max(detectedFreqsPower));
+    
+    [~,idx] = min(abs(targetFreqs-maxDetectedFreq));
+    targetFreqDetected = targetFreqs(idx);
+    fprintf("You were looking at light blinking at %.1f Hz\n", targetFreqDetected)
+else
         disp("You were NOT looking at blinking light")    
 end
 
