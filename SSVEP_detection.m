@@ -3,11 +3,11 @@ clearvars;
 clc
 close all
 
-data = load_data("data/7.4hz_01.h5");
+data = load_data("data/6hz_01.h5");
 n_window = 4;
 windowLength = 2000;
 % data = data((n_window-1)*windowLength+1:n_window*windowLength);
-data = data(20000:21000);
+% data = data(20000:21000);
 
 targetFreqs = [6, 7.4]; %Hz
 filterFreqs = [4, 40];

@@ -7,7 +7,6 @@ windowTimes = [1, 2, 3, 4, 5];
 percentiles = [75, 80, 85, 90, 95, 99];
 freqIntervals = [.05, .10, .15, .20, .25, .30, .35, .40, .45, .50];
 
-ii = 1;
 txt = '';
 for windowTime = windowTimes
     for percentile = percentiles
@@ -22,18 +21,12 @@ for windowTime = windowTimes
             result.null_accuracy = null_accuracy;
 
             txt = strcat(txt, jsonencode(result, PrettyPrint=true), ',');
-            if ii ==2
-                break
-            end
-            ii=ii+1;
         end
-        break
     end
-    break
 end
 
 fid = fopen('results.json','a');
-fprintf(fid,'%s', txt);
+fprintf(fid,'[%s]', txt);
 fclose(fid);
 
 %%
