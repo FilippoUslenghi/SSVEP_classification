@@ -5,7 +5,7 @@ close all
 
 windowTimes = [1, 2, 3, 4, 5];
 percentiles = [75, 80, 85, 90, 95, 99];
-freqIntervals = [.05, .10, .15, .20, .25, .30, .35, .40, .45, .50];
+freqIntervals = [.1, .2, .3, .4, .5];
 
 txt = '';
 for windowTime = windowTimes
@@ -26,7 +26,7 @@ for windowTime = windowTimes
 end
 
 fid = fopen('results.json','a');
-fprintf(fid,'[%s]', txt);
+fprintf(fid,'%s]', txt);
 fclose(fid);
 
 %%
