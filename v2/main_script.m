@@ -2,7 +2,7 @@ clearvars;
 clc
 close all
 
-data = load_data("data/6hz_03.h5");
+data = load_data("../data/6hz_03.h5");
 realFreq = 6;
 fs = 1000;
 targetFreqs = [6, 7.4]; %Hz
@@ -22,7 +22,7 @@ for ii = 1:n_windows
     end
 
     window = data(startPoint:endPoint);
-    detectedFreq = pipeline(window, targetFreqs, fs, filterFreqs, percentile, freqInterval);
+    detectedFreq = pipeline_v2(window, targetFreqs, fs, filterFreqs, percentile, freqInterval);
 
 %     fprintf("Window n: %d\n", ii)
 %     if detectedFreqs

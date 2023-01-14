@@ -3,7 +3,7 @@ clearvars;
 clc
 close all
 
-data = load_data("data/6hz_01.h5");
+data = load_data("../data/6hz_01.h5");
 n_window = 4;
 windowLength = 2000;
 % data = data((n_window-1)*windowLength+1:n_window*windowLength);
@@ -28,29 +28,35 @@ ylim([0,max(exp_PSD)])
 % Search the 'perc' percentile of the sorted peaks
 perc = 90;
 [pks, locs] = findpeaks(exp_PSD, freqs_PSD, "SortStr", "descend");
-P = prctile(pks, perc);
-pksPerc = pks(pks>P);
-locsPerc = locs(pks>P);
-
-P_idx = find(diff(pks>P));
+pksSum = sum(pks);
+topPks = zeros(size(pks));
+for ii = 1:pks
+    if sum(topPks)/pksSum > perc/100
+        break
+    end
+    topPks(ii) = pks(ii);
+end
+topPks = nonzeros(topPks)';
+[~,idxTopPks] = ismember(topPks, pks);
+locsTopPks = locs(idxTopPks);
 
 figure()
 plot(pks)
 hold on
-plot(P_idx, pks(P_idx), 'x', 'Color', 'r')
+plot(find(pks==min(topPks)), pks(pks==min(topPks)), 'x', 'Color', 'r')
 
 intervalDetection = .5;
 detectedFreqs =[];
 for ii = 1:length(targetFreqs)
     targetFreq = targetFreqs(ii);
-    detectedFreqs = cat(2, detectedFreqs, locsPerc(locsPerc>targetFreq-intervalDetection ...
-        & locsPerc<targetFreq+intervalDetection));
+    detectedFreqs = cat(2, detectedFreqs, locsTopPks(locsTopPks>targetFreq-intervalDetection ...
+        & locsTopPks<targetFreq+intervalDetection));
 end
 
 if detectedFreqs 
-    [~, indexDetectedFreqs] = ismember(detectedFreqs, locsPerc); 
-    detectedFreqsPower = pksPerc(indexDetectedFreqs);
-    maxDetectedFreq = locsPerc(pksPerc==max(detectedFreqsPower));
+    [~, indexDetectedFreqs] = ismember(detectedFreqs, locsTopPks); 
+    detectedFreqsPower = topPks(indexDetectedFreqs);
+    maxDetectedFreq = locsTopPks(topPks==max(detectedFreqsPower));
     
     [~,idx] = min(abs(targetFreqs-maxDetectedFreq));
     targetFreqDetected = targetFreqs(idx);

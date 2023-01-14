@@ -4,7 +4,7 @@ close all
 
 
 windowTimes = [1, 2, 3, 4, 5];
-percentiles = [75, 80, 85, 90, 95, 99];
+percentiles = [10, 20, 30, 40, 50, 60, 70, 80, 90];
 freqIntervals = [.1, .2, .3, .4, .5];
 
 txt = '';
@@ -25,7 +25,7 @@ for windowTime = windowTimes
     end
 end
 
-fid = fopen('results.json','a');
+fid = fopen('results_v2.json','a');
 fprintf(fid,'[%s]', txt);
 fclose(fid);
 
@@ -78,7 +78,7 @@ function accuracy = main_script(data, realFreq, fs, targetFreqs, filterFreqs, pe
         end
     
         window = data(startPoint:endPoint);
-        detectedFreq = pipeline(window, targetFreqs, fs, filterFreqs, percentile, freqInterval);
+        detectedFreq = pipeline_v2(window, targetFreqs, fs, filterFreqs, percentile, freqInterval);
     
         freqsPerWindow{ii} = detectedFreq;
     end
