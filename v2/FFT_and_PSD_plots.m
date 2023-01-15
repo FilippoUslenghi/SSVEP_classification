@@ -7,7 +7,7 @@ figure()
 ax = zeros(1, 10);
 for ii = 1:5
     % Loading the data
-    dataDir = sprintf("data/6hz_0%d.h5", ii);
+    dataDir = sprintf("../data/6hz_0%d.h5", ii);
     data = h5read(dataDir, "/20:15:12:22:81:60/raw/channel_4");
     data = cast(data, "double")';
     
@@ -18,7 +18,7 @@ for ii = 1:5
     f_axis = (0:N-1)/N*fs;
     
     % Filtering the signal
-    filtered_data = bandpass(data, [2, 40], fs);
+    filtered_data = bandpass(data, [4, 10], fs);
     
     % Plotting fft
     S_dft = fft(filtered_data);
@@ -41,7 +41,7 @@ figure()
 ax = zeros(1, 10);
 for ii = 1:5
     % Loading the data
-    dataDir = sprintf("data/7.4hz_0%d.h5", ii);
+    dataDir = sprintf("../data/7.4hz_0%d.h5", ii);
     data = h5read(dataDir, "/20:15:12:22:81:60/raw/channel_4");
     data = cast(data, "double")';
     
@@ -52,7 +52,7 @@ for ii = 1:5
     f_axis = (0:N-1)/N*fs;
     
     % Filtering the signal
-    filtered_data = bandpass(data, [2, 40], fs);
+    filtered_data = bandpass(data, [4, 10], fs);
     
     % Plotting fft
     S_dft = fft(filtered_data);
@@ -75,7 +75,7 @@ figure()
 ax = zeros(1, 10);
 for ii = 1:5
     % Loading the data
-    dataDir = sprintf("data/null_0%d.h5", ii);
+    dataDir = sprintf("../data/null_0%d.h5", ii);
     data = h5read(dataDir, "/20:15:12:22:81:60/raw/channel_4");
     data = cast(data, "double")';
     
@@ -86,7 +86,7 @@ for ii = 1:5
     f_axis = (0:N-1)/N*fs;
     
     % Filtering the signal
-    filtered_data = bandpass(data, [2, 40], fs);
+    filtered_data = bandpass(data, [4, 10], fs);
     
     % Plotting fft
     S_dft = fft(filtered_data);

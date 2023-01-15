@@ -18,7 +18,7 @@ for ii = 1:5
     f_axis = (0:N-1)/N*fs;
     
     % Filtering the signal
-    filtered_data = bandpass(data, [2, 40], fs);
+    filtered_data = bandpass(data, [4, 10], fs);
     
     % Plotting fft
     S_dft = fft(filtered_data);
@@ -52,7 +52,7 @@ for ii = 1:5
     f_axis = (0:N-1)/N*fs;
     
     % Filtering the signal
-    filtered_data = bandpass(data, [2, 40], fs);
+    filtered_data = bandpass(data, [4, 10], fs);
     
     % Plotting fft
     S_dft = fft(filtered_data);
@@ -86,7 +86,7 @@ for ii = 1:5
     f_axis = (0:N-1)/N*fs;
     
     % Filtering the signal
-    filtered_data = bandpass(data, [2, 40], fs);
+    filtered_data = bandpass(data, [4, 10], fs);
     
     % Plotting fft
     S_dft = fft(filtered_data);
