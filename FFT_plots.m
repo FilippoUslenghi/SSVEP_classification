@@ -1,10 +1,11 @@
 %% 6Hz SSVEP
+
 clearvars;
 clc;
 close all
 
 figure()
-ax = zeros(1, 10);
+ax = zeros(1, 5);
 for ii = 1:5
     % Loading the data
     dataDir = sprintf("data/6hz_0%d.h5", ii);
@@ -22,23 +23,18 @@ for ii = 1:5
     
     % Plotting fft
     S_dft = fft(filtered_data);
-    ax(2*ii-1) = subplot(5, 2, 2*ii-1);
+    ax(2*ii-1) = subplot(5, 1, ii);
     plot(f_axis(1:end/2), abs(S_dft(1:end/2)))
     title(sprintf("FFT of signal 6hz\\_0%d", ii))
-    
-    % Plotting periodogram
-    S_periodogram=T*abs(fft(filtered_data-mean(filtered_data))).^2/N;
-    S_periodogram(1)=nan;
-    ax(2*ii) = subplot(5, 2, 2*ii);
-    plot(f_axis(1:end/2), S_periodogram(1:end/2))
-    title(sprintf("PSD of signal 6hz\\_0%d", ii))
+
 end
 linkaxes(ax, 'x');
+xlim([3 11])
 
 %% 7.4Hz SSVEP
 
 figure()
-ax = zeros(1, 10);
+ax = zeros(1, 5);
 for ii = 1:5
     % Loading the data
     dataDir = sprintf("data/7.4hz_0%d.h5", ii);
@@ -56,23 +52,17 @@ for ii = 1:5
     
     % Plotting fft
     S_dft = fft(filtered_data);
-    ax(2*ii-1) = subplot(5, 2, 2*ii-1);
+    ax(2*ii-1) = subplot(5, 1, ii);
     plot(f_axis(1:end/2), abs(S_dft(1:end/2)))
     title(sprintf("FFT of signal 7.4hz\\_0%d", ii))
-    
-    % Plotting periodogram
-    S_periodogram=T*abs(fft(filtered_data-mean(filtered_data))).^2/N;
-    S_periodogram(1)=nan;
-    ax(2*ii) = subplot(5, 2, 2*ii);
-    plot(f_axis(1:end/2), S_periodogram(1:end/2))
-    title(sprintf("PSD of signal 7.4hz\\_0%d", ii))
 end
 linkaxes(ax, 'x');
+xlim([3 11])
 
 %% No SSVEP
 
 figure()
-ax = zeros(1, 10);
+ax = zeros(1, 5);
 for ii = 1:5
     % Loading the data
     dataDir = sprintf("data/null_0%d.h5", ii);
@@ -90,15 +80,9 @@ for ii = 1:5
     
     % Plotting fft
     S_dft = fft(filtered_data);
-    ax(2*ii-1) = subplot(5, 2, 2*ii-1);
+    ax(2*ii-1) = subplot(5, 1, ii);
     plot(f_axis(1:end/2), abs(S_dft(1:end/2)))
     title(sprintf("FFT of signal null\\_0%d", ii))
-    
-    % Plotting periodogram
-    S_periodogram=T*abs(fft(filtered_data-mean(filtered_data))).^2/N;
-    S_periodogram(1)=nan;
-    ax(2*ii) = subplot(5, 2, 2*ii);
-    plot(f_axis(1:end/2), S_periodogram(1:end/2))
-    title(sprintf("PSD of signal null\\_0%d", ii))
 end
 linkaxes(ax, 'x');
+xlim([3 11])
