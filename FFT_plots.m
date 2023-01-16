@@ -19,10 +19,10 @@ for ii = 1:5
     f_axis = (0:N-1)/N*fs;
     
     % Filtering the signal
-    filtered_data = bandpass(data, [4, 10], fs);
-    
+%     filtered_data = bandpass(data, [4, 10], fs);
+
     % Plotting fft
-    S_dft = fft(filtered_data);
+    S_dft = fft(data);
     ax(2*ii-1) = subplot(5, 1, ii);
     plot(f_axis(1:end/2), abs(S_dft(1:end/2)))
     title(sprintf("FFT of signal 6hz\\_0%d", ii))
@@ -48,10 +48,10 @@ for ii = 1:5
     f_axis = (0:N-1)/N*fs;
     
     % Filtering the signal
-    filtered_data = bandpass(data, [4, 10], fs);
+%     filtered_data = bandpass(data, [4, 10], fs);
     
     % Plotting fft
-    S_dft = fft(filtered_data);
+    S_dft = fft(data);
     ax(2*ii-1) = subplot(5, 1, ii);
     plot(f_axis(1:end/2), abs(S_dft(1:end/2)))
     title(sprintf("FFT of signal 7.4hz\\_0%d", ii))
@@ -76,10 +76,10 @@ for ii = 1:5
     f_axis = (0:N-1)/N*fs;
     
     % Filtering the signal
-    filtered_data = bandpass(data, [4, 10], fs);
+%     filtered_data = bandpass(data, [4, 10], fs);
     
     % Plotting fft
-    S_dft = fft(filtered_data);
+    S_dft = fft(data);
     ax(2*ii-1) = subplot(5, 1, ii);
     plot(f_axis(1:end/2), abs(S_dft(1:end/2)))
     title(sprintf("FFT of signal null\\_0%d", ii))
