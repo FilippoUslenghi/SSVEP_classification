@@ -3,9 +3,9 @@ clearvars;
 clc
 close all
 
-data = load_data("data/7.4hz_01.h5");
+data = load_data("data/null_01.h5");
 n_window = 1;
-windowLength = 2*1000;
+windowLength = 5*1000;
 data = data((n_window-1)*windowLength+1:n_window*windowLength);
 
 fs=1000;
@@ -13,7 +13,7 @@ N = length(data);
 fAxis = (0:N-1)/N*fs;
 
 % Filtering the signal
-filteredData = bandpass(data, [4 10], fs);
+% data = bandpass(data, [4 10], fs);
 
 % Plotting the DFT of the signal
 ax = zeros(2,1);
