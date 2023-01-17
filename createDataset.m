@@ -1,4 +1,3 @@
-% TODO set windowTime parameter for windowing the signals
 function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, zeroPadding)
     fs = 1000;
     windowSize = windowTime * fs;
