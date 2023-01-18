@@ -1,4 +1,4 @@
-function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, zeroPadding)
+function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange)
     fs = 1000;
     windowSize = windowTime * fs;
     dataDir = "data/";
@@ -31,10 +31,8 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, zero
         for jj = 1:nWindows
             window = M(:, jj);
 
-            % Add zero padding if requested
-            if zeroPadding
-                window = cat(1, window, zeros(50000, 1));
-            end
+            % Add zero padding
+            window = cat(1, window, zeros(50000, 1));
             
             % Filter the signal
 %             window = bandpass(window, [4 10], fs);
@@ -44,10 +42,26 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, zero
             X(idx) = coeff;
 
             % Populate Y
-            if (fileName(1) == '6' && targetFreq == 6 || ...
-                    fileName(1) == '7' && targetFreq == 7.4)
-                Y(idx) = 1;
+            if (fileName(1) == '6' && targetFreq == 6 || fileName(1) == '7' ...
+                    && targetFreq == 7.4)
+                 Y(idx) = 1;
             end
+
+%             if nClasses == 2
+%                 if (fileName(1) == '6' && targetFreq == 6 || ...
+%                         fileName(1) == '7' && targetFreq == 7.4)
+%                     Y(idx) = 1;
+%                 end
+%             end
+% 
+%             if nClasses == 3
+%                 if (fileName(1) == '6' && targetFreq == 6)
+%                     Y(idx) = 1;
+%                 elseif (fileName(1) == '7' && targetFreq == 7.4)
+%                     Y(idx) = 2;
+%                 end
+%             end
+            
             filenames(idx) = fileName;
             idx = idx + 1;
         end
