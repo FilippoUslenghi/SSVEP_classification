@@ -5,7 +5,6 @@ clc
 close all
 
 
-fs = 1000;
 targetFreqs = [6 7.4];
 windowTimes = [1 2 3 4 5];
 freqRanges = [.05 .1 .2 .3 .4];
@@ -16,7 +15,7 @@ for targetFreq = targetFreqs
     t = tiledlayout(5,5, TileSpacing="compact", Padding="compact");
     for windowTime = windowTimes
         for freqRange = freqRanges
-            [X,Y] = createDataset(targetFreq, windowTime, freqRange, nClasses=2);
+            [X,Y] = createDataset(targetFreq, windowTime, freqRange);
             [fpr,tpr,T,AUC] = perfcurve(Y,X,1);
             
             nexttile
