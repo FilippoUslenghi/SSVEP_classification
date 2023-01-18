@@ -25,8 +25,6 @@ for windowTime = windowTimes
         C = confusionmat(Y, y_pred, "Order", [1 2 0]);
         cm = confusionchart(C,["6 Hz" "7.4 Hz" "null"]);
         cm.RowSummary = 'row-normalized';
-        cm.ColumnSummary = 'column-normalized';
-        cm.Normalization = 'total-normalized';
         cm.Title = sprintf("WindowTime = %ds, freqRange = %.2fHz", windowTime, freqRange);
     end
 end

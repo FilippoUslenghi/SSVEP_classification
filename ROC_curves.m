@@ -24,15 +24,18 @@ for targetFreq = targetFreqs
                 windowTime, freqRange), sprintf("AUC = %.3f", AUC))
             xlabel('False positive rate')
             ylabel('True positive rate')
+            
 
-            ROCpoints = cat(2,fpr,tpr);
-            
-            distanceToAngleCooridnates = ROCpoints - [0 1];
-            distanceToAngle = sqrt(sum(distanceToAngleCooridnates.^2, 2));
-            idxMinDistanceToAngle = find(min(distanceToAngle)==distanceToAngle);
-            
+%             ROCpoints = cat(2,fpr,tpr);
+%             distanceToAngleCooridnates = ROCpoints - [0 1];
+%             distanceToAngle = sqrt(sum(distanceToAngleCooridnates.^2, 2));
+%             idxMinDistanceToAngle = find(min(distanceToAngle)==distanceToAngle);
+
+            distances = abs(1-fpr-tpr);
+            [~, idx] = min(distances);
             hold on
-            plot(fpr(idxMinDistanceToAngle), tpr(idxMinDistanceToAngle), 'x')
+            plot([0 1], [1 0], 'k--')
+            plot(fpr(idx), tpr(idx), 'rd')
         end
     end
     title(t, sprintf("ROC curves for %.1f Hz SSVEP detection.", targetFreq))
