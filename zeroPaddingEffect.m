@@ -3,9 +3,9 @@ clearvars;
 clc
 close all
 
-data = load_data("data/null_01.h5");
+data = load_data("data/6hz_01.h5");
 n_window = 1;
-windowLength = 5*1000;
+windowLength = 2*1000;
 data = data((n_window-1)*windowLength+1:n_window*windowLength);
 
 fs=1000;

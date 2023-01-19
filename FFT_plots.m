@@ -8,8 +8,9 @@ figure()
 ax = zeros(1, 5);
 for ii = 1:5
     % Loading the data
-    dataDir = sprintf("data/6hz_0%d.h5", ii);
-    data = h5read(dataDir, "/20:15:12:22:81:60/raw/channel_4");
+    dataDir = "data/my_data/";
+    filename =  sprintf("6hz_0%d.h5", ii);
+    data = h5read(strcat(dataDir,filename), "/20:15:12:22:81:60/raw/channel_4");
     data = cast(data, "double")';
     
     fs = 1000;
@@ -23,7 +24,7 @@ for ii = 1:5
 
     % Plotting fft
     S_dft = fft(data);
-    ax(2*ii-1) = subplot(5, 1, ii);
+    ax(ii) = subplot(5, 1, ii);
     plot(f_axis(1:end/2), abs(S_dft(1:end/2)))
     title(sprintf("FFT of signal 6hz\\_0%d", ii))
 
@@ -37,8 +38,9 @@ figure()
 ax = zeros(1, 5);
 for ii = 1:5
     % Loading the data
-    dataDir = sprintf("data/7.4hz_0%d.h5", ii);
-    data = h5read(dataDir, "/20:15:12:22:81:60/raw/channel_4");
+    dataDir = "data/my_data/";
+    filename =  sprintf("7.4hz_0%d.h5", ii);
+    data = h5read(strcat(dataDir,filename), "/20:15:12:22:81:60/raw/channel_4");
     data = cast(data, "double")';
     
     fs = 1000;
@@ -52,7 +54,7 @@ for ii = 1:5
     
     % Plotting fft
     S_dft = fft(data);
-    ax(2*ii-1) = subplot(5, 1, ii);
+    ax(ii) = subplot(5, 1, ii);
     plot(f_axis(1:end/2), abs(S_dft(1:end/2)))
     title(sprintf("FFT of signal 7.4hz\\_0%d", ii))
 end
@@ -65,8 +67,9 @@ figure()
 ax = zeros(1, 5);
 for ii = 1:5
     % Loading the data
-    dataDir = sprintf("data/null_0%d.h5", ii);
-    data = h5read(dataDir, "/20:15:12:22:81:60/raw/channel_4");
+    dataDir = "data/my_data/";
+    filename =  sprintf("null_0%d.h5", ii);
+    data = h5read(strcat(dataDir,filename), "/20:15:12:22:81:60/raw/channel_4");
     data = cast(data, "double")';
     
     fs = 1000;
@@ -80,7 +83,7 @@ for ii = 1:5
     
     % Plotting fft
     S_dft = fft(data);
-    ax(2*ii-1) = subplot(5, 1, ii);
+    ax(ii) = subplot(5, 1, ii);
     plot(f_axis(1:end/2), abs(S_dft(1:end/2)))
     title(sprintf("FFT of signal null\\_0%d", ii))
 end

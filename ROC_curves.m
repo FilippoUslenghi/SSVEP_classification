@@ -25,12 +25,6 @@ for targetFreq = targetFreqs
             xlabel('False positive rate')
             ylabel('True positive rate')
             
-
-%             ROCpoints = cat(2,fpr,tpr);
-%             distanceToAngleCooridnates = ROCpoints - [0 1];
-%             distanceToAngle = sqrt(sum(distanceToAngleCooridnates.^2, 2));
-%             idxMinDistanceToAngle = find(min(distanceToAngle)==distanceToAngle);
-
             distances = abs(1-fpr-tpr);
             [~, idx] = min(distances);
             hold on

@@ -1,7 +1,6 @@
-function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange)
-    fs = 1000;
+function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, fs)
     windowSize = windowTime * fs;
-    dataDir = "data/";
+    dataDir = "data/my_data/";
     dataFiles = dir(dataDir);
     
     % Remove unwanted files
@@ -13,6 +12,12 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange)
         fileName = dataFiles(ii).name;
 
         data = load_data(strcat(dataDir,fileName));
+
+         % Resample if necessary
+        if fs ~= 1000
+            data = resample(data, fs, 1000);
+        end
+
         totWindows = totWindows + floor(length(data)/windowSize);
     end
     X = zeros(totWindows, 1);
@@ -25,14 +30,20 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange)
     for ii = 1:numel(dataFiles)
         fileName = dataFiles(ii).name;
 
-        data = load_data(strcat(dataDir,fileName));  
+        data = load_data(strcat(dataDir,fileName));
+
+        % Resample if necessary
+        if fs ~= 1000
+            data = resample(data, fs, 1000);
+        end
+
         [M, nWindows] = windowize(data, windowSize);
 
         for jj = 1:nWindows
             window = M(:, jj);
 
             % Add zero padding
-            window = cat(1, window, zeros(50000, 1));
+            window = cat(1, window, zeros(50*fs, 1));
             
             % Filter the signal
 %             window = bandpass(window, [4 10], fs);
