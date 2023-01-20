@@ -2,12 +2,10 @@ function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
     dataDir = "data/AVI_SSVEP_Dataset_MAT/single/";
     dataFiles = dir(dataDir);
     
+    freqsOfInterest = [6 7.5];
+
     % Remove unwanted files
     dataFiles = dataFiles(contains({dataFiles.name}, '.mat'));
-    
-    if targetFreq == 7.4
-        targetFreq = 7.5;
-    end
 
     % Pre-allocate space
     windowSize = windowTime * fs;
@@ -15,7 +13,7 @@ function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
     for ii = 1:numel(dataFiles)
         fileName = dataFiles(ii).name;
         load(strcat(dataDir,fileName), "Data");
-        data = Data.EEG(:, targetFreq==Data.TargetFrequency);
+        data = Data.EEG(:, ismember(Data.TargetFrequency, freqsOfInterest));
 
         % For every signal of interest stored in the .mat file
         for jj = 1:size(data,2)
@@ -28,7 +26,6 @@ function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
 
             totWindows = totWindows + floor(length(signal)/windowSize);
         end
-        break
     end
     X = zeros(totWindows, 1);
     Y = zeros(totWindows, 1);
@@ -39,13 +36,18 @@ function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
     for ii = 1:numel(dataFiles)
         fileName = dataFiles(ii).name;
         load(strcat(dataDir,fileName), "Data");
-        data = Data.EEG(:, Data.TargetFrequency==targetFreq);
+        data = Data.EEG(:, ismember(Data.TargetFrequency, freqsOfInterest));
+        labels = Data.TargetFrequency(ismember(Data.TargetFrequency, freqsOfInterest));
+
+        % Normalize the data
+        data = data./max(data);
         
         % For every signal of interest stored in the .mat file
         for jj = 1:size(data,2)
             signal = data(:,jj);
+            label = labels(jj);
 
-             % Resample if necessary
+            % Resample if necessary
             if fs ~= 512
                 signal = resample(signal, fs, 512);
             end
@@ -63,14 +65,12 @@ function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
                 X(idx) = coeff;
     
                 % Populate Y
-                if (targetFreq == 6 || targetFreq == 7.5)
+                if (targetFreq == label)
                      Y(idx) = 1;
                 end
     
                 idx = idx + 1;
             end
-            
         end
-        break
     end
 end

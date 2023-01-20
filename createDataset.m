@@ -32,6 +32,9 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, fs)
 
         data = load_data(strcat(dataDir,fileName));
 
+        % Normalize the data
+        data = data./max(data);
+
         % Resample if necessary
         if fs ~= 1000
             data = resample(data, fs, 1000);
