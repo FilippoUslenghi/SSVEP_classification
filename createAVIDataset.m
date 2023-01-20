@@ -63,6 +63,11 @@ function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
                 % Populate X
                 [coeff, ~] = findTargetFreq(window, targetFreq, fs, freqRange);
                 X(idx) = coeff;
+
+%                 if idx == 42
+%                     fAxis = (0:length(window)-1)/length(window)*fs;
+%                     plot(fAxis,abs(fft(window)))
+%                 end
     
                 % Populate Y
                 if (targetFreq == label)

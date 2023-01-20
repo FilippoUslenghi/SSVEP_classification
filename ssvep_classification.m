@@ -20,7 +20,7 @@ for windowTime = windowTimes
 
         X = cat(2,X1,X2); % input matrix: maximum values of fft around targetFreqs
         Y = Y1 + (2*Y2); % labels: 1=6Hz, 2=7.4Hz, 0=no_freq
-        y_pred = SSVEP_classifier(X, Y, bestThreshold6, bestThreshold7_4);
+        y_pred = SSVEP_classifier(X, bestThreshold6, bestThreshold7_4);
         
         % Compute confusion matrix
         C = confusionmat(Y, y_pred, "Order", [1 2 0]);
@@ -29,4 +29,4 @@ for windowTime = windowTimes
         cm.Title = sprintf("WindowTime = %ds, freqRange = %.2fHz", windowTime, freqRange);
     end
 end
-title(t, "Confusion matrices for SSVEP classification")
+title(t, "SSVEP classification on my dataset")

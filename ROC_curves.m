@@ -30,7 +30,7 @@ for targetFreq = targetFreqs
             [~, idx] = min(distances);
             hold on
             plot([0 1], [1 0], 'k--')
-            plot(fpr(idx), tpr(idx), 'rd')
+            scatter(fpr(idx), tpr(idx), 'rd', 'filled')
         end
     end
     title(t, sprintf("ROC curves for %.1f Hz SSVEP detection.", targetFreq))

@@ -1,6 +1,6 @@
-function y_pred = SSVEP_classifier(X, Y, threshold6, threshold7_4)
+function y_pred = SSVEP_classifier(X, threshold6, threshold7_4)
 % Create the decision tree classifier based on both threshold values
-    y_pred = zeros(size(Y));
+    y_pred = zeros(length(X),1);
 
     for ii = 1:length(X)
         x = X(ii,:);
@@ -16,4 +16,5 @@ function y_pred = SSVEP_classifier(X, Y, threshold6, threshold7_4)
             end
         end
     end
+
 end
