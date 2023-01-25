@@ -21,7 +21,7 @@ for targetFreq = targetFreqs
             
             nexttile
             plot(fpr, tpr)
-            title(sprintf("WindowTime = %ds, " + "freqRange = %.2f", ...
+            title(sprintf("WindowTime = %ds, " + "freqRange = %.2fHz", ...
                 windowTime, freqRange), sprintf("AUC = %.3f", AUC))
             xlabel('False positive rate')
             ylabel('True positive rate')

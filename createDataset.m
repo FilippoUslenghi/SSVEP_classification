@@ -1,4 +1,16 @@
 function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, fs)
+% Creates arrays X and Y.
+% X contains the maximum value around 'targetFreq' of the FFT of the 
+% windowed signals present in my dataset.
+% The parameter 'freqRange' specifies the range of values of
+% the FFT to consider while searching for the maximum, i.e.
+% (targetFreq-freRange, targetFreq+freRange).
+%
+% Y is a binary array of labels with the same length of X.
+% At a given index 'i', it contains 1 if the value X[i] is extracted from a
+% signal where I was looking at a visual stimuli of frequency 'targetFreq',
+% 0 otherwise.
+
     windowSize = windowTime * fs;
     dataDir = "data/my_data/";
     dataFiles = dir(dataDir);
@@ -47,9 +59,6 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, fs)
 
             % Add zero padding
             window = cat(1, window, zeros(50*fs, 1));
-            
-            % Filter the signal
-%             window = bandpass(window, [4 10], fs);
 
             % Populate X
             [coeff, ~] = findTargetFreq(window, targetFreq, fs, freqRange);
@@ -60,21 +69,6 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, fs)
                     && targetFreq == 7.4)
                  Y(idx) = 1;
             end
-
-%             if nClasses == 2
-%                 if (fileName(1) == '6' && targetFreq == 6 || ...
-%                         fileName(1) == '7' && targetFreq == 7.4)
-%                     Y(idx) = 1;
-%                 end
-%             end
-% 
-%             if nClasses == 3
-%                 if (fileName(1) == '6' && targetFreq == 6)
-%                     Y(idx) = 1;
-%                 elseif (fileName(1) == '7' && targetFreq == 7.4)
-%                     Y(idx) = 2;
-%                 end
-%             end
             
             filenames(idx) = fileName;
             idx = idx + 1;
