@@ -1,4 +1,4 @@
-%% Train classifier on my dataset
+%% Train decision tree on my dataset
 clearvars
 clc
 close all
@@ -24,7 +24,7 @@ cm.RowSummary = 'row-normalized';
 cm.Title = sprintf("WindowTime = %ds, freqRange = %.2fHz", windowTime, freqRange);
 title("My dataset")
 
-%% Create [X_test,Y_test] from AVI dataset and test the classifier
+%% Create [X_test,Y_test] from AVI dataset and test the classifier on that dataset
 
 fs = 512;
 windowTimes = [1 2 3 4 5];

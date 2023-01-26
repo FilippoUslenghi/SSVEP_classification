@@ -1,4 +1,4 @@
-%% Classification of SSVEP signals using decision tree
+%% Classification of SSVEP signals on my dataset using decision tree
 
 clearvars
 clc
