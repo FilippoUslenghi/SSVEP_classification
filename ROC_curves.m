@@ -1,5 +1,5 @@
-%% Computes and plots the ROC curve for each target frequency, considering
-%  different window lengths and frequency ranges.
+%% Computes and plots the ROC curve of each target frequency, considering
+%  all the combination of window lengths and frequency ranges.
 clearvars
 clc
 close all

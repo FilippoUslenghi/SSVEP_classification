@@ -1,4 +1,6 @@
-%% 6Hz SSVEP
+%% This script shows the FFT of each recording, grouped by the visual stimuli
+
+% 6Hz SSVEP
 
 clearvars;
 clc;
@@ -18,9 +20,6 @@ for ii = 1:5
     N = length(data);
     t_axis = (0:N-1)/fs;
     f_axis = (0:N-1)/N*fs;
-    
-    % Filtering the signal
-%     filtered_data = bandpass(data, [4, 10], fs);
 
     % Plotting fft
     S_dft = fft(data);
@@ -49,9 +48,6 @@ for ii = 1:5
     t_axis = (0:N-1)/fs;
     f_axis = (0:N-1)/N*fs;
     
-    % Filtering the signal
-%     filtered_data = bandpass(data, [4, 10], fs);
-    
     % Plotting fft
     S_dft = fft(data);
     ax(ii) = subplot(5, 1, ii);
@@ -77,9 +73,6 @@ for ii = 1:5
     N = length(data);
     t_axis = (0:N-1)/fs;
     f_axis = (0:N-1)/N*fs;
-    
-    % Filtering the signal
-%     filtered_data = bandpass(data, [4, 10], fs);
     
     % Plotting fft
     S_dft = fft(data);
