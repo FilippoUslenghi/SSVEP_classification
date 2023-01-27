@@ -1,4 +1,16 @@
 function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
+% Creates arrays X and Y.
+% X contains the maximum value around 'targetFreq' of the FFT of the 
+% windowed signals present in the AVI dataset.
+% The parameter 'freqRange' specifies the range of values of
+% the FFT to consider while searching for the maximum, i.e.
+% (targetFreq-freRange, targetFreq+freRange).
+%
+% Y is a binary array of labels with the same length of X.
+% At a given index 'i', it contains 1 if the value X[i] is extracted from a
+% signal where the subject was looking at a visual stimuli of frequency 'targetFreq',
+% 0 otherwise.
+
     dataDir = "data/AVI_SSVEP_Dataset_MAT/single/";
     dataFiles = dir(dataDir);
     
@@ -63,11 +75,6 @@ function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
                 % Populate X
                 [coeff, ~] = findTargetFreq(window, targetFreq, fs, freqRange);
                 X(idx) = coeff;
-
-%                 if idx == 42
-%                     fAxis = (0:length(window)-1)/length(window)*fs;
-%                     plot(fAxis,abs(fft(window)))
-%                 end
     
                 % Populate Y
                 if (targetFreq == label)
