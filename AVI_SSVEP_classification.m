@@ -6,7 +6,9 @@ freqRanges = [.05 .1 .2 .3 .4];
 
 figure()
 t = tiledlayout(5, 5, TileSpacing="compact", Padding="compact");
+% For every window length
 for windowTime = windowTimes
+    % For every frequancy range
     for freqRange = freqRanges
         nexttile
         

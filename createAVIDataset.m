@@ -23,6 +23,7 @@ function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
     windowSize = windowTime * fs;
     totWindows = 0;
     for ii = 1:numel(dataFiles)
+        % Load the data file
         fileName = dataFiles(ii).name;
         load(strcat(dataDir,fileName), "Data");
         data = Data.EEG(:, ismember(Data.TargetFrequency, freqsOfInterest));
@@ -64,6 +65,7 @@ function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
                 signal = resample(signal, fs, 512);
             end
             
+            % Window the signal
             [M, nWindows] = windowize(signal, windowSize);
     
             for kk = 1:nWindows
@@ -80,7 +82,8 @@ function [X,Y] = createAVIDataset(targetFreq, windowTime, freqRange, fs)
                 if (targetFreq == label)
                      Y(idx) = 1;
                 end
-    
+                
+                % Increase index
                 idx = idx + 1;
             end
         end

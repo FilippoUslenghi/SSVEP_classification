@@ -1,4 +1,4 @@
-function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, fs)
+function [X,Y] = createDataset(targetFreq, windowTime, freqRange, fs)
 % Creates arrays X and Y.
 % X contains the maximum value around 'targetFreq' of the FFT of the 
 % windowed signals present in my dataset.
@@ -21,8 +21,8 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, fs)
     % Pre-allocate space
     totWindows = 0;
     for ii = 1:numel(dataFiles)
+        % Load the data file
         fileName = dataFiles(ii).name;
-
         data = load_data(strcat(dataDir,fileName));
 
          % Resample if necessary
@@ -34,14 +34,13 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, fs)
     end
     X = zeros(totWindows, 1);
     Y = zeros(totWindows, 1);
-    filenames = strings(totWindows, 1);
 
 
     % Populate dataset
     idx = 1;
     for ii = 1:numel(dataFiles)
+        % Load the data file
         fileName = dataFiles(ii).name;
-
         data = load_data(strcat(dataDir,fileName));
 
         % Normalize the data
@@ -51,7 +50,8 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, fs)
         if fs ~= 1000
             data = resample(data, fs, 1000);
         end
-
+        
+        % Window the signal
         [M, nWindows] = windowize(data, windowSize);
 
         for jj = 1:nWindows
@@ -70,7 +70,7 @@ function [X,Y,filenames] = createDataset(targetFreq, windowTime, freqRange, fs)
                  Y(idx) = 1;
             end
             
-            filenames(idx) = fileName;
+            % Increase the index
             idx = idx + 1;
         end
     end
